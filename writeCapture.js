@@ -615,13 +615,12 @@
 				var state = capture(context,options);
 				queue.pause(); // pause the queue while the script loads
 				logDebug('pause',src);
-				
-				doLoadXDomain(context.target,src,captureAndResume);		
+				doXDomainLoad($.$(context.target),src,captureAndResume);		
 
 				function captureAndResume(xhr,st,error) {
 					logDebug('out', src, state.out);
 					html(uncapture(state), 
-						newCallbackTag(state.finish) + setupResume());
+					newCallbackTag(state.finish) + setupResume());
 					logDebug('resume',src);
 				}
 			}
@@ -652,7 +651,7 @@
     	// TODO what about scripts that fail to load? bad url, etc.?
 		var script = document.createElement("script");
 		script.src = url;
-
+        var parent = target.parentNode;
 		var done = false;
 
 		// Attach handlers for all browsers
